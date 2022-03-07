@@ -1,0 +1,25 @@
+{
+  "family": "my-node-app",
+  "executionRoleArn": "arn:aws:iam::<AWS アカウントID>:role/my-task-execution-role",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "containerDefinitions": [
+    {
+      "name": "express-server",
+      "image": "<AWS アカウントID>.dkr.ecr.ap-northeast-1.amazonaws.com/express-server",
+      "essential": true,
+      "memory": 384,
+      "memoryReservation": 128,
+      "portMappings": [
+        {
+          "containerPort": 8080
+        }
+      ],
+      "readonlyRootFilesystem": true,
+      "privileged": false,
+      "user": "1000"
+    }
+  ]
+}

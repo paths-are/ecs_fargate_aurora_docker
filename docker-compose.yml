@@ -1,0 +1,23 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: password
+      TZ: "Asia/Tokyo"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql  # mysqlのデータを永続化
+      - ./mysql/init:/docker-entrypoint-initdb.d  # コンテナ起動時にSQLを発行
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf  # 設定ファイルをバインド
+  nodejs:
+    build: ./app/Dockerfile
+    image: <AWS アカウントID>.dkr.ecr.ap-northeast-1.amazonaws.com/express-server
+    ports:
+      - "80:8080"
+    volumes:
+      - ./app:/var/app
+
